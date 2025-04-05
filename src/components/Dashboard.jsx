@@ -204,16 +204,6 @@ const Dashboard = ({ signer, account }) => {
             </div>
           </div>
           
-          <div className="stat-card">
-            <div className="stat-icon">
-              <FaHistory />
-            </div>
-            <div className="stat-details">
-              <h3>Transactions</h3>
-              <div className="stat-value">{transactions ? transactions.length : 0}</div>
-            </div>
-          </div>
-          
         </div>
         
         <div className="lands-section">
@@ -292,7 +282,6 @@ const Dashboard = ({ signer, account }) => {
           <div className="form-group">
             <label>Land Address</label>
             <div className="input-with-icon">
-              <FaMapMarkerAlt className="input-icon" />
               <input
                 type="text"
                 placeholder="Enter complete address"
@@ -371,7 +360,6 @@ const Dashboard = ({ signer, account }) => {
                   ) : (
                     <>
                       <span className="title">Land Documents</span>
-                      <span className="subtitle">Drag files here or click to browse</span>
                     </>
                   )}
                 </div>
@@ -402,7 +390,6 @@ const Dashboard = ({ signer, account }) => {
                   ) : (
                     <>
                       <span className="title">Land Images</span>
-                      <span className="subtitle">Drag images here or click to browse</span>
                     </>
                   )}
                 </div>
@@ -573,21 +560,6 @@ const Dashboard = ({ signer, account }) => {
               <div className="lands-grid">
                 {searchResults.map((land, index) => (
                   <div key={index} className="land-result-card">
-                    <div className="land-image">
-                      {land.landImageCID ? (
-                        <a href={`https://ipfs.io/ipfs/${land.landImageCID}`} target="_blank" rel="noopener noreferrer">
-                          <div className="image-placeholder">
-                            <FaImage />
-                            <span>View Image</span>
-                          </div>
-                        </a>
-                      ) : (
-                        <div className="image-placeholder">
-                          <FaImage />
-                          <span>No Image</span>
-                        </div>
-                      )}
-                    </div>
                     
                     <div className="land-info">
                       <div className="land-title">{land.landAddress}</div>
@@ -645,7 +617,7 @@ const Dashboard = ({ signer, account }) => {
     <div className={`app-container ${darkMode ? 'dark-mode' : ''}`}>
       <header className="header">
         <div className="logo">
-          <img src="/logo.png" alt="Zameen Logo"  width={200} height={150}/>
+          <img src="/zameen-logo.png" alt="Zameen Logo"  width={200} height={150}/>
           <h1></h1>
         </div>
         <div className="header-actions">
