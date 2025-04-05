@@ -330,7 +330,7 @@ const Dashboard = ({ signer, account }) => {
               <option value="">Select type</option>
               <option value="Residential">Residential</option>
               <option value="Commercial">Commercial</option>
-              <option value="Agricultural">Agricultural</option>
+               <option value="Agricultural">Agricultural</option>
               <option value="Industrial">Industrial</option>
             </select>
           </div>
