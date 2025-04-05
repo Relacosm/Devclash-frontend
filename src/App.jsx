@@ -1,4 +1,4 @@
-// src/App.js
+// src/App.jsx
 import React, { useState } from "react";
 import WalletConnect from "./components/WalletConnect";
 import Dashboard from "./components/Dashboard";
