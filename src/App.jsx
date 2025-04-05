@@ -44,6 +44,7 @@ const LandRegistry = () => {
   const [isSearchLoading, setIsSearchLoading] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [searchError, setSearchError] = useState(null);
+  const [showDigiLockerModal, setShowDigiLockerModal] = useState(false);
 
   // Contract address - replace with your deployed contract address
   const CONTRACT_ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3'; // Replace with your actual contract address
@@ -482,6 +483,30 @@ const LandRegistry = () => {
     return land;
   };
 
+  const handleDigiLockerVerification = () => {
+    setShowDigiLockerModal(true);
+    
+    // Mock the progress animation for the DigiLocker verification steps
+    const progressSteps = document.querySelectorAll('.progress-step');
+    
+    progressSteps.forEach((step, index) => {
+      setTimeout(() => {
+        step.classList.add('active');
+        if (index > 0) {
+          progressSteps[index - 1].classList.add('completed');
+        }
+      }, index * 800);
+    });
+  };
+  
+  const completeDigiLockerVerification = () => {
+    setShowDigiLockerModal(false);
+    setFormData({
+      ...formData,
+      isVerified: true
+    });
+  };
+
   // Render search results
   const renderSearchResults = () => {
     if (isSearchLoading) return <div className="loading">Searching...</div>;
@@ -576,100 +601,151 @@ const LandRegistry = () => {
           </div>
         );
         
-      case 'register':
-        return (
-          <div className="register-land">
-            <h2>Register New Land</h2>
-            <p>Complete the form below to register your land on the blockchain.</p>
-            
-            <form onSubmit={handleRegisterLand} className="form">
-              <div className="form-group">
-                <label htmlFor="location">Location</label>
-                <input
-                  type="text"
-                  id="location"
-                  name="location"
-                  value={formData.location}
-                  onChange={(e) => handleInputChange(e, setFormData, formData)}
-                  placeholder="e.g. 123 Blockchain St, Crypto City"
-                  required
-                />
-              </div>
+        case 'register':
+          return (
+            <div className="register-land">
+              <h2>Register New Land</h2>
+              <p>Complete the form below to register your land on the blockchain.</p>
               
-              <div className="form-group">
-                <label htmlFor="area">Area (in square meters)</label>
-                <input
-                  type="number"
-                  id="area"
-                  name="area"
-                  value={formData.area}
-                  onChange={(e) => handleInputChange(e, setFormData, formData)}
-                  placeholder="e.g. 500"
-                  required
-                />
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="surveyNumber">Survey Number</label>
-                <input
-                  type="text"
-                  id="surveyNumber"
-                  name="surveyNumber"
-                  value={formData.surveyNumber}
-                  onChange={(e) => handleInputChange(e, setFormData, formData)}
-                  placeholder="e.g. SUR-12345"
-                  required
-                />
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="price">Price (in ETH)</label>
-                <input
-                  type="number"
-                  id="price"
-                  name="price"
-                  value={formData.price}
-                  onChange={(e) => handleInputChange(e, setFormData, formData)}
-                  placeholder="e.g. 10"
-                  step="0.01"
-                  required
-                />
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="documents">Land Documents</label>
-                <input
-                  type="file"
-                  id="documents"
-                  onChange={(e) => handleFileUpload(e, 'document')}
-                  accept=".pdf,.doc,.docx"
-                />
-                <small>Upload ownership documents (PDF or DOC)</small>
-                {formData.documentHash && (
-                  <div className="upload-success">Document hash: {shortenAddress(formData.documentHash)}</div>
+              <form onSubmit={handleRegisterLand} className="form">
+                <div className="form-group">
+                  <label htmlFor="location">Location</label>
+                  <input
+                    type="text"
+                    id="location"
+                    name="location"
+                    value={formData.location}
+                    onChange={(e) => handleInputChange(e, setFormData, formData)}
+                    placeholder="e.g. 123 Blockchain St, Crypto City"
+                    required
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label htmlFor="area">Area (in square meters)</label>
+                  <input
+                    type="number"
+                    id="area"
+                    name="area"
+                    value={formData.area}
+                    onChange={(e) => handleInputChange(e, setFormData, formData)}
+                    placeholder="e.g. 500"
+                    required
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label htmlFor="surveyNumber">Survey Number</label>
+                  <input
+                    type="text"
+                    id="surveyNumber"
+                    name="surveyNumber"
+                    value={formData.surveyNumber}
+                    onChange={(e) => handleInputChange(e, setFormData, formData)}
+                    placeholder="e.g. SUR-12345"
+                    required
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label htmlFor="price">Price (in ETH)</label>
+                  <input
+                    type="number"
+                    id="price"
+                    name="price"
+                    value={formData.price}
+                    onChange={(e) => handleInputChange(e, setFormData, formData)}
+                    placeholder="e.g. 10"
+                    step="0.01"
+                    required
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label htmlFor="documents">Land Documents</label>
+                  <input
+                    type="file"
+                    id="documents"
+                    onChange={(e) => handleFileUpload(e, 'document')}
+                    accept=".pdf,.doc,.docx"
+                  />
+                  <small>Upload ownership documents (PDF or DOC)</small>
+                  {formData.documentHash && (
+                    <div className="upload-success">Document hash: {shortenAddress(formData.documentHash)}</div>
+                  )}
+                </div>
+        
+                <div className="form-group">
+                  <label htmlFor="digilocker">Document Verification</label>
+                  <button 
+                    type="button" 
+                    className="btn secondary" 
+                    onClick={handleDigiLockerVerification}
+                  >
+                    Verify with DigiLocker
+                  </button>
+                  {formData.isVerified && (
+                    <div className="verification-success">
+                      <span className="verification-badge">✓ Verified</span>
+                      Documents verified successfully through DigiLocker
+                    </div>
+                  )}
+                </div>
+                
+                <div className="form-group">
+                  <label htmlFor="image">Land Image</label>
+                  <input
+                    type="file"
+                    id="image"
+                    onChange={(e) => handleFileUpload(e, 'image')}
+                    accept="image/*"
+                  />
+                  <small>Upload a photograph of the land</small>
+                  {formData.imageHash && (
+                    <div className="upload-success">Image hash: {shortenAddress(formData.imageHash)}</div>
+                  )}
+                </div>
+                
+                <button 
+                  type="submit" 
+                  className="btn primary" 
+                  disabled={loading || !formData.isVerified}
+                >
+                  {loading ? 'Processing...' : 'Register Land'}
+                </button>
+                {!formData.isVerified && (
+                  <small className="verification-required">DigiLocker verification required before registration</small>
                 )}
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="image">Land Image</label>
-                <input
-                  type="file"
-                  id="image"
-                  onChange={(e) => handleFileUpload(e, 'image')}
-                  accept="image/*"
-                />
-                <small>Upload a photograph of the land</small>
-                {formData.imageHash && (
-                  <div className="upload-success">Image hash: {shortenAddress(formData.imageHash)}</div>
-                )}
-              </div>
-              
-              <button type="submit" className="btn primary" disabled={loading}>
-                {loading ? 'Processing...' : 'Register Land'}
-              </button>
-            </form>
-          </div>
-        );
+              </form>
+        
+              {showDigiLockerModal && (
+                <div className="modal-overlay">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h3>DigiLocker Verification</h3>
+                      <button className="close-btn" onClick={() => setShowDigiLockerModal(false)}>×</button>
+                    </div>
+                    <div className="modal-body">
+                      <div className="digilocker-progress">
+                        <div className="progress-step">Connecting to DigiLocker...</div>
+                        <div className="progress-step">Fetching land documents...</div>
+                        <div className="progress-step">Verifying document authenticity...</div>
+                        <div className="progress-step success">Verification successful!</div>
+                      </div>
+                    </div>
+                    <div className="modal-footer">
+                      <button 
+                        className="btn primary" 
+                        onClick={completeDigiLockerVerification}
+                      >
+                        Complete Verification
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
         
       case 'transfer':
         return (
