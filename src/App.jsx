@@ -99,11 +99,11 @@ const LandRegistry = () => {
         document.documentElement.setAttribute('data-theme', 'dark');
       }
       
-      if (window.ethereum) {
-        await connectWallet();
-      } else {
+      // Always set loading to false, regardless of MetaMask status
+      setLoading(false);
+      
+      if (!window.ethereum) {
         setErrorMessage("Please install MetaMask to use this application");
-        setLoading(false);
       }
     };
 
