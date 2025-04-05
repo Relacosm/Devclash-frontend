@@ -907,7 +907,7 @@ const LandRegistry = () => {
     <div className="land-registry-app">
       <header className="header">
         <div className="logo">
-          <h1>Zameen</h1>
+          <h1></h1>
         </div>
         <div className="wallet-info">
           <button onClick={toggleDarkMode} className="theme-toggle">
