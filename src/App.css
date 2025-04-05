@@ -113,11 +113,17 @@ body {
 .logo h1::before {
   content: '';
   display: inline-block;
-  width: 24px;
-  height: 24px;
-  background-color: var(--primary-color);
-  border-radius: 6px;
+  width: 100px;
+  height: 100px;
+  background-image: url('./zameen-logo.png'); /* make sure path is correct */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 8px; /* optional */
+  margin-right: 10px; /* spacing from the "Zameen" text */
 }
+
+
 
 .wallet-info {
   display: flex;
