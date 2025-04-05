@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import LandRegistryABI from "../../../artifacts/contracts/LandRegistry.sol/LandRegistry.json"; // Ensure you have the ABI JSON file
+import LandRegistryABI from "../../../DevClash25-Backend-main/artifacts/contracts/LandRegistry.sol/LandRegistry.json"; // Ensure you have the ABI JSON file
 
 
 const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
